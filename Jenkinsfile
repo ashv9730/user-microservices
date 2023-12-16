@@ -97,7 +97,7 @@ pipeline{
         }
 
 
-        stage('Cleanup') {
+        stage('Cleanup workscape') {
             steps {
                 // Clean up the entire workspace before starting the build
                 deleteDir()
