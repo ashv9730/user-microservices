@@ -2,6 +2,13 @@ pipeline{
     agent {
         label "jenkinsDockerSlave"
     }
+
+    environment { 
+ 
+        VERSION = "${env.BUILD_ID}"
+   
+    }
+
     stages{
         stage("cloning Git Repo"){
             steps{
@@ -42,7 +49,7 @@ pipeline{
             steps{
                 echo "====++++executing Push Image in Docker HUb++++===="
                 withCredentials([usernamePassword(credentialsId: 'dockerhub-cred', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
-                    sh "docker tag user-microservices ${env.USERNAME}/user-microservices:latest"
+                    sh "docker tag user-microservices ${env.USERNAME}/user-microservices:${env.VERSION}"
                     sh "docker login -u ${env.USERNAME} -p ${env.PASSWORD}" 
                     sh "docker push ${env.USERNAME}/user-microservices:latest"
                 }
@@ -60,11 +67,28 @@ pipeline{
         
             }
         }
+
+
+        stage("Removing Docker Images locally All"){
+            steps{
+                echo "====++++executing Removing Docker Images locally All++++===="
+                sh 'docker rmi -f $(docker images -aq)'
+            }
+            post{
+                always{
+                    echo "====++++always++++===="
+                }
+                success{
+                    echo "====++++Removing Docker Images locally All executed successfully++++===="
+                }
+                failure{
+                    echo "====++++Removing Docker Images locally All execution failed++++===="
+                }
+        
+            }
+        }
     }
     post{
-        always{
-            echo "========always========"
-        }
         success{
             echo "========pipeline executed successfully ========"
         }
