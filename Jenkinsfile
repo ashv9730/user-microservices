@@ -51,7 +51,7 @@ pipeline{
                 withCredentials([usernamePassword(credentialsId: 'dockerhub-cred', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
                     sh "docker tag user-microservices ${env.USERNAME}/user-microservices:${env.VERSION}"
                     sh "docker login -u ${env.USERNAME} -p ${env.PASSWORD}" 
-                    sh "docker push ${env.USERNAME}/user-microservices:latest"
+                    sh "docker push ${env.USERNAME}/user-microservices:${env.VERSION}"
                 }
             }
             post{
