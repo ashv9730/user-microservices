@@ -10,6 +10,13 @@ pipeline{
     }
 
     stages{
+
+        stage('Cleanup') {
+            steps {
+                // Clean up the entire workspace before starting the build
+                deleteDir()
+            }
+        }
         stage("cloning Git Repo"){
             steps{
                 echo "========cloning Git Repo========"
@@ -17,13 +24,13 @@ pipeline{
             }
             post{
                 always{
-                    echo "========always========"
+                    emailext  body: 'This is Cloning Repo Stage Start', subject: 'Cloning Repo Stage Start', to: 'ashv9730@gmail.com'
                 }
                 success{
-                    echo "========A executed successfully========"
+                    emailext attachLog: true, body: 'This is Cloning Repo Stage Success', subject: 'Cloning Repo Stage Success', to: 'ashv9730@gmail.com'
                 }
                 failure{
-                    echo "========A execution failed========"
+                    emailext attachLog: true, body: 'This is Cloning Repo Stage Failure', subject: 'This is Cloning Repo Stage Success', to: 'ashv9730@gmail.com'
                 }
             }
         }
@@ -34,13 +41,13 @@ pipeline{
             }
             post{
                 always{
-                    echo "====++++always++++===="
+                    emailext  body: 'This is Starting Build Stage', subject: 'Starting Build Stage', to: 'ashv9730@gmail.com'
                 }
                 success{
-                    echo "====++++A executed successfully++++===="
+                    emailext attachLog: true, body: 'This is Build Stage Success', subject: 'Build Stage Success', to: 'ashv9730@gmail.com'
                 }
                 failure{
-                    echo "====++++A execution failed++++===="
+                    emailext attachLog: true, body: 'This is Build Stage Failure', subject: 'Build Stage Failure', to: 'ashv9730@gmail.com'
                 }
         
             }
@@ -56,13 +63,14 @@ pipeline{
             }
             post{
                 always{
-                    echo "====++++always++++===="
+                    emailext  body: 'This is Starting Push Image in Docker HUb', subject: 'Starting Push Image in Docker HUb', to: 'ashv9730@gmail.com'
+
                 }
                 success{
-                    echo "====++++Push Image in Docker HUb executed successfully++++===="
+                    emailext  attachLog: true, body: 'This is Push Image in Docker HUb Success', subject: 'Push Image in Docker HUb Success', to: 'ashv9730@gmail.com'
                 }
                 failure{
-                    echo "====++++Push Image in Docker HUb execution failed++++===="
+                    emailext  attachLog: true, body: 'This is Push Image in Docker HUb Failure', subject: 'Push Image in Docker HUb Failure', to: 'ashv9730@gmail.com'
                 }
         
             }
@@ -87,13 +95,26 @@ pipeline{
         
             }
         }
+
+
+        stage('Cleanup') {
+            steps {
+                // Clean up the entire workspace before starting the build
+                deleteDir()
+            }
+        }
     }
     post{
         success{
-            echo "========pipeline executed successfully ========"
+            emailext  attachLog: true, body: 'This is Pipeline Success', subject: 'Pipeline Success', to: 'ashv9730@gmail.com'
+
         }
         failure{
-            echo "========pipeline execution failed========"
+            emailext  attachLog: true, body: 'This is Pipeline Failure', subject: 'Pipeline Failure', to: 'ashv9730@gmail.com'
+
         }
     }
 }
+
+
+
