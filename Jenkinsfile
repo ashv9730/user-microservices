@@ -1,9 +1,13 @@
 pipeline{
-    agent any
+    agent {
+        label "jenkinsDockerSlave"
+    }
     stages{
-        stage("firstStage"){
+        stage("cloning Git Repo"){
             steps{
-                echo "========executing A firststage========"
+                echo "========cloning Git Repo========"
+                git url: "https://github.com/ashv9730/user-microservices.git", branch: "master"
+                sh 'docker version'
             }
             post{
                 always{
