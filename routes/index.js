@@ -4,6 +4,10 @@ import User from "../models/UserModels"
 
 const userRouter = Router()
 
+userRouter.get('/', (req,res) => {
+  res.send("hii from userRouter")
+})
+
 userRouter.post('/newuser', async (req,res) => {
     // const {name, age} = req.body
     // const user = new User({
@@ -40,6 +44,7 @@ userRouter.post('/newuser', async (req,res) => {
 
 userRouter.get('/getuser/:id', (req,res) => {
     const {id} = req.params
+    res.send(`getuser by id ${id}`)
     
 })
 

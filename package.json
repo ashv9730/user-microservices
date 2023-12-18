@@ -116,7 +116,8 @@
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "nodemon -r esm index.js"
+    "dev": "nodemon -r esm index.js",
+    "start": "node -r esm index.js"
   },
   "keywords": [],
   "author": "",

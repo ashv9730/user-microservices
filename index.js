@@ -7,6 +7,9 @@ const app = express();
 DBConn();
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
+app.get('/',(req,res) => {
+  res.send('hello from users ')
+})
 app.use("/user", userRouter);
 
 const port = 3000;
